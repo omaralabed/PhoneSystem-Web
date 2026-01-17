@@ -45,7 +45,7 @@ def init_phone_system():
         
         # Initialize SIP engine
         logger.info("Initializing SIP engine...")
-        sip_engine = SIPEngine("config/sip_config.json", audio_router)
+        sip_engine = SIPEngine(num_lines=8)
         sip_engine.start()
         
         # Register callbacks for real-time updates
