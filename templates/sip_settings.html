@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}SIP Settings{% endblock %}
+
+{% block content %}
+<div class="settings-page">
+    <div class="page-header">
+        <h1 class="page-title">SIP Settings</h1>
+        <a href="/" class="btn btn-back">← Back</a>
+    </div>
+    
+    <!-- Global Settings -->
+    <div class="settings-section">
+        <h2 class="section-title">GLOBAL SETTINGS</h2>
+        <div class="form-group">
+            <label for="sip-server">SIP Server:</label>
+            <input type="text" id="sip-server" placeholder="sip.twilio.com">
+        </div>
+        <div style="display: flex; gap: 15px;">
+            <div class="form-group" style="flex: 1;">
+                <label for="sip-port">Port:</label>
+                <input type="number" id="sip-port" value="5060">
+            </div>
+            <div class="form-group" style="flex: 1;">
+                <label for="transport">Transport:</label>
+                <select id="transport">
+                    <option value="UDP">UDP</option>
+                    <option value="TCP">TCP</option>
+                    <option value="TLS">TLS</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Line Credentials -->
+    <div class="settings-section">
+        <h2 class="section-title">LINE CREDENTIALS</h2>
+        
+        {% for line_id in range(1, 9) %}
+        <div class="line-section" id="line-section-{{ line_id }}">
+            <div class="line-section-header" onclick="toggleLineSection({{ line_id }})">
+                <span class="line-number">
+                    <span class="expand-icon">▶</span> Line {{ line_id }}
+                </span>
+                <span class="text-muted" id="line-{{ line_id }}-summary">Not configured</span>
+            </div>
+            <div class="line-section-content">
+                <div class="form-group">
+                    <label for="line-{{ line_id }}-username">Username:</label>
+                    <input type="text" id="line-{{ line_id }}-username" placeholder="+1XXXXXXXXXX">
+                </div>
+                <div class="form-group">
+                    <label for="line-{{ line_id }}-password">Password:</label>
+                    <input type="password" id="line-{{ line_id }}-password" placeholder="SIP Password">
+                </div>
+                <div style="display: flex; gap: 15px;">
+                    <div class="form-group" style="flex: 1;">
+                        <label for="line-{{ line_id }}-callerid-name">Caller ID Name:</label>
+                        <input type="text" id="line-{{ line_id }}-callerid-name" placeholder="Studio Line {{ line_id }}">
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label for="line-{{ line_id }}-callerid-number">Caller ID Number:</label>
+                        <input type="text" id="line-{{ line_id }}-callerid-number" placeholder="+1XXXXXXXXXX">
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <!-- Warning -->
+    <div class="warning">
+        ⚠️ System will restart after saving SIP settings to apply changes.
+    </div>
+    
+    <!-- Actions -->
+    <div class="form-actions">
+        <button class="btn btn-save" onclick="saveSIPSettings()">💾 Save All Settings</button>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/settings.js') }}"></script>
+{% endblock %}

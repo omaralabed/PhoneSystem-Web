@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block title %}Phone System - Main{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="main-content">
+        <!-- 8 Line Widgets in 2x4 Grid -->
+        <div class="lines-grid">
+            {% for line_id in range(1, 9) %}
+            <div class="line-widget" data-line-id="{{ line_id }}">
+                <!-- Line Header -->
+                <div class="line-header">
+                    <span class="line-number">Line {{ line_id }}</span>
+                    <span class="audio-label">IFB</span>
+                </div>
+                
+                <!-- Status -->
+                <div class="line-status">Available</div>
+                
+                <!-- Controls -->
+                <div class="line-controls">
+                    <!-- Channel Picker -->
+                    <select class="channel-picker" data-line-id="{{ line_id }}">
+                        <option value="0">🔇 None</option>
+                        {% for ch in range(1, 9) %}
+                        <option value="{{ ch }}">🔊 {{ ch }}</option>
+                        {% endfor %}
+                    </select>
+                    
+                    <!-- Action Button (DIAL/HANGUP) -->
+                    <button class="btn btn-dial action-btn" data-line-id="{{ line_id }}">
+                        📞 DIAL
+                    </button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Bottom Bar -->
+        <div class="bottom-bar">
+            <label for="test-channel">Test Channel:</label>
+            <select id="test-channel">
+                {% for ch in range(1, 9) %}
+                <option value="{{ ch }}">Channel {{ ch }}</option>
+                {% endfor %}
+            </select>
+            
+            <button id="hold-test-btn" class="btn btn-test">🔊 Hold to Test</button>
+            
+            <div class="spacer"></div>
+            
+            <button id="settings-btn" class="btn btn-settings">⚙</button>
+        </div>
+    </div>
+</div>
+
+<!-- Dial Pad Modal -->
+<div id="dial-modal" class="modal">
+    <div class="modal-content">
+        <div class="dial-pad">
+            <div class="modal-header">
+                <h2 class="modal-title">Line <span id="dial-line-number">1</span> - Dial</h2>
+                <button class="modal-close" onclick="closeDialPad()">&times;</button>
+            </div>
+            
+            <input type="text" id="dial-display" class="dial-display" readonly>
+            
+            <div class="dial-grid">
+                <button class="dial-btn" onclick="dialPadPress('1')">1</button>
+                <button class="dial-btn" onclick="dialPadPress('2')">2</button>
+                <button class="dial-btn" onclick="dialPadPress('3')">3</button>
+                <button class="dial-btn" onclick="dialPadPress('4')">4</button>
+                <button class="dial-btn" onclick="dialPadPress('5')">5</button>
+                <button class="dial-btn" onclick="dialPadPress('6')">6</button>
+                <button class="dial-btn" onclick="dialPadPress('7')">7</button>
+                <button class="dial-btn" onclick="dialPadPress('8')">8</button>
+                <button class="dial-btn" onclick="dialPadPress('9')">9</button>
+                <button class="dial-btn" onclick="dialPadPress('*')">*</button>
+                <button class="dial-btn" onclick="dialPadPress('0')">0</button>
+                <button class="dial-btn" onclick="dialPadPress('#')">#</button>
+            </div>
+            
+            <div class="dial-actions">
+                <button class="btn" onclick="dialPadBackspace()">Del</button>
+                <button class="btn" onclick="dialPadClear()">Clear</button>
+                <button class="btn" onclick="showRecents()">📋</button>
+                <button class="btn btn-call" onclick="makeCall()">📞 CALL</button>
+            </div>
+            
+            <button class="btn btn-cancel" onclick="closeDialPad()">✖ Cancel</button>
+        </div>
+    </div>
+</div>
+
+<!-- Settings Menu Modal -->
+<div id="settings-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 class="modal-title">Settings</h2>
+            <button class="modal-close" onclick="closeSettings()">&times;</button>
+        </div>
+        <div style="padding: 20px;">
+            <a href="/sip-settings" class="btn" style="display: block; margin-bottom: 15px; text-align: center; text-decoration: none;">🌐 SIP Settings</a>
+            <a href="/network-settings" class="btn" style="display: block; margin-bottom: 15px; text-align: center; text-decoration: none;">📡 Network Settings</a>
+            <button class="btn" onclick="rebootSystem()">🔄 Reboot System</button>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/websocket.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dialer.js') }}"></script>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+{% endblock %}
