@@ -11,6 +11,7 @@ import subprocess
 from pathlib import Path
 from flask import Flask, render_template, jsonify, request
 from flask_socketio import SocketIO, emit
+from flask_cors import CORS
 import threading
 
 from src.sip_engine import SIPEngine
@@ -27,7 +28,20 @@ logger = logging.getLogger(__name__)
 # Initialize Flask app
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your-secret-key-change-this'  # Change in production
-socketio = SocketIO(app, cors_allowed_origins="*")
+
+# Enable CORS for all routes (Chrome compatibility)
+CORS(app, resources={r"/*": {"origins": "*"}})
+
+# Initialize SocketIO with Chrome-compatible settings
+socketio = SocketIO(
+    app, 
+    cors_allowed_origins="*",
+    async_mode='threading',
+    ping_timeout=60,
+    ping_interval=25,
+    logger=True,
+    engineio_logger=True
+)
 
 # Initialize phone system components
 sip_engine = None
@@ -86,6 +100,15 @@ def on_audio_route_change(line_id, audio_output):
 # ============================================================================
 # WEB ROUTES
 # ============================================================================
+
+# Add security headers for Chrome compatibility
+@app.after_request
+def after_request(response):
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+    response.headers.add('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
+    return response
 
 @app.route('/')
 def index():

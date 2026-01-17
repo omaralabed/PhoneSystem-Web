@@ -1,0 +1,72 @@
+{
+  "mode": "multi_account",
+  "sip_server": "sip.twilio.com",
+  "sip_port": 5060,
+  "transport": "UDP",
+  "num_lines": 8,
+  "codec_priority": ["PCMU", "PCMA", "G722"],
+  "registration_timeout": 300,
+  "retry_interval": 30,
+  "lines": [
+    {
+      "line_id": 1,
+      "username": "",
+      "password": "",
+      "caller_id_name": "Line 1",
+      "caller_id_number": ""
+    },
+    {
+      "line_id": 2,
+      "username": "",
+      "password": "",
+      "caller_id_name": "Line 2",
+      "caller_id_number": ""
+    },
+    {
+      "line_id": 3,
+      "username": "",
+      "password": "",
+      "caller_id_name": "Line 3",
+      "caller_id_number": ""
+    },
+    {
+      "line_id": 4,
+      "username": "",
+      "password": "",
+      "caller_id_name": "Line 4",
+      "caller_id_number": ""
+    },
+    {
+      "line_id": 5,
+      "username": "",
+      "password": "",
+      "caller_id_name": "Line 5",
+      "caller_id_number": ""
+    },
+    {
+      "line_id": 6,
+      "username": "",
+      "password": "",
+      "caller_id_name": "Line 6",
+      "caller_id_number": ""
+    },
+    {
+      "line_id": 7,
+      "username": "",
+      "password": "",
+      "caller_id_name": "Line 7",
+      "caller_id_number": ""
+    },
+    {
+      "line_id": 8,
+      "username": "",
+      "password": "",
+      "caller_id_name": "Line 8",
+      "caller_id_number": ""
+    }
+  ],
+  "comments": {
+    "note": "Each line has its own Twilio phone number and credentials",
+    "mode": "multi_account = Each line uses separate SIP account"
+  }
+}

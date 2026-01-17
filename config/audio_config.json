@@ -1,0 +1,24 @@
+{
+  "audio_device_name": "hw:0,0",
+  "audio_device_index": 0,
+  "num_outputs": 6,
+  "sample_rate": 48000,
+  "buffer_size": 256,
+  "latency": "low",
+  "default_routing": {
+    "line_1": 0,
+    "line_2": 0,
+    "line_3": 0,
+    "line_4": 0,
+    "line_5": 0,
+    "line_6": 0,
+    "line_7": 0,
+    "line_8": 0
+  },
+  "comments": {
+    "note": "Audio output channel mapping for USB audio interface",
+    "num_outputs": "Total number of available output channels (1-8)",
+    "default_routing": "Default output channel for each line - 0 means no output (operator assigns manually)",
+    "flexible": "Any line can be routed to any output (1-8) during operation, outputs are exclusive (one line per output)"
+  }
+}

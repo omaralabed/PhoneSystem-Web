@@ -1,0 +1,20 @@
+[Unit]
+Description=PhoneSystem-Web - 8-Line Phone System
+After=network.target sound.target
+
+[Service]
+Type=simple
+User=pi
+WorkingDirectory=/home/pi/PhoneSystem-Web
+Environment="PATH=/home/pi/PhoneSystem-Web/venv/bin"
+ExecStart=/home/pi/PhoneSystem-Web/venv/bin/python app.py
+Restart=always
+RestartSec=10
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=phonesystem
+
+[Install]
+WantedBy=multi-user.target
