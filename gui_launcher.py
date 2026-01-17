@@ -13,7 +13,7 @@ class PhoneSystemGUI(QWebEngineView):
     def __init__(self):
         super().__init__()
         
-        # Configure web engine settings
+        # Configure web engine settings for better rendering
         settings = self.settings()
         settings.setAttribute(QWebEngineSettings.LocalStorageEnabled, True)
         settings.setAttribute(QWebEngineSettings.JavascriptEnabled, True)
@@ -51,11 +51,17 @@ def main():
     QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
     QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
     
+    # Better rendering
+    os.environ['QT_AUTO_SCREEN_SCALE_FACTOR'] = '1'
+    
     app = QApplication(sys.argv)
     app.setApplicationName("ProComm Phone System")
     
     # Create and show the GUI
     gui = PhoneSystemGUI()
+    
+    # Set zoom to make 1366x768 render like Safari (1.15 = bigger, fills screen)
+    gui.setZoomFactor(1.15)
     
     sys.exit(app.exec_())
 
